@@ -1,0 +1,11 @@
+{
+  "openWebUIBaseUrl": "http://127.0.0.1:8080",
+  "modelId": "jarvis",
+  "timeoutSeconds": 240,
+  "temperature": 0,
+  "maxTokens": 768,
+  "slowResponseSeconds": 45,
+  "reportsDirectory": "Tests",
+  "baselineFile": "Tests\\baseline.json",
+  "visionManifest": "Tests\\vision\\manifest.json"
+}

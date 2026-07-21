@@ -1,0 +1,138 @@
+[
+  {
+    "id": "tools-current-timestamp",
+    "group": "TOOLS",
+    "name": "Current date and time tool",
+    "prompt": "Use get_current_timestamp. Report the current date and time and briefly identify the tool used.",
+    "assertions": [
+      { "type": "contains", "values": ["get_current_timestamp"] },
+      { "type": "toolCalls", "values": ["get_current_timestamp"] }
+    ],
+    "critical": true
+  },
+  {
+    "id": "tools-arithmetic",
+    "group": "TOOLS",
+    "name": "Deterministic arithmetic",
+    "prompt": "Calculate (37 * 14) - 29. Return only the integer answer.",
+    "assertions": [{ "type": "exact", "value": "489" }],
+    "critical": true
+  },
+  {
+    "id": "tools-memory-search",
+    "group": "TOOLS",
+    "name": "Memory retrieval: blue comet",
+    "prompt": "Retrieve my saved phrase blue comet. Use search_memories first and list_memories only if search returns nothing. State the phrase and which memory tool(s) you used.",
+    "assertions": [
+      { "type": "contains", "values": ["blue comet"] },
+      { "type": "contains", "values": ["search_memories"] },
+      { "type": "toolCalls", "values": ["search_memories"] }
+    ],
+    "critical": true
+  },
+  {
+    "id": "tools-memory-fallback",
+    "group": "TOOLS",
+    "name": "Memory list fallback discipline",
+    "prompt": "Search memories for the deliberately absent phrase JARVIS_REGRESSION_MISSING_9F31. If search returns nothing, use list_memories as the fallback. Do not invent a memory. Say which tools you used.",
+    "assertions": [
+      { "type": "contains", "values": ["search_memories", "list_memories"] },
+      { "type": "containsAny", "values": ["not found", "no memory", "could not find", "nothing", "no match", "does not appear"] },
+      { "type": "toolCalls", "values": ["search_memories", "list_memories"] }
+    ],
+    "critical": true
+  },
+  {
+    "id": "tools-chat-history",
+    "group": "TOOLS",
+    "name": "Chat History retrieval",
+    "prompt": "Use the chat-history search tool to search for blue comet. Report whether it appears and identify the tool used. Do not substitute memory search.",
+    "assertions": [
+      { "type": "containsAny", "values": ["chat history", "chat-history", "chat_history", "search_chats", "search_chat"] },
+      { "type": "toolCalls", "values": ["search_chats"] }
+    ],
+    "critical": false
+  },
+  {
+    "id": "tools-web-fetch",
+    "group": "TOOLS",
+    "name": "Web search then fetch",
+    "prompt": "Find the official Bureau of Labor Statistics CPI release calendar. Use search_web to locate it and fetch_url to read the official BLS page. Identify both tools used and cite the official bls.gov URL.",
+    "assertions": [
+      { "type": "contains", "values": ["search_web", "fetch_url"] },
+      { "type": "contains", "values": ["bls.gov"] },
+      { "type": "toolCalls", "values": ["search_web", "fetch_url"] }
+    ],
+    "critical": true
+  },
+  {
+    "id": "tools-current-us-president",
+    "group": "TOOLS",
+    "name": "Current U.S. President lookup",
+    "prompt": "Who is the current U.S. President? Verify with current official White House evidence before answering.",
+    "assertions": [
+      { "type": "contains", "values": ["Donald J. Trump"] },
+      { "type": "sourceEvidence" }
+    ],
+    "critical": true
+  },
+  {
+    "id": "tools-best-buy-myrtle-beach",
+    "group": "TOOLS",
+    "name": "Verified Best Buy Myrtle Beach location",
+    "prompt": "Where is Best Buy located in Myrtle Beach, South Carolina? Use current official Best Buy evidence only.",
+    "assertions": [
+      { "type": "contains", "values": ["1145 Oak Forest Ln", "Myrtle Beach", "SC 29577"] },
+      { "type": "notContains", "values": ["541 Seaboard"] },
+      { "type": "sourceEvidence" }
+    ],
+    "critical": true
+  },
+  {
+    "id": "tools-bls-cpi",
+    "group": "TOOLS",
+    "name": "BLS CPI official verification",
+    "prompt": "Using search_web followed by fetch_url, read the official BLS release calendar and give the scheduled release date and time for the June 2026 CPI data. Cite the exact official bls.gov page. Do not rely on a search snippet.",
+    "assertions": [
+      { "type": "contains", "values": ["bls.gov"] },
+      { "type": "containsAny", "values": ["8:30", "08:30"] },
+      { "type": "containsAny", "values": ["July 14, 2026", "Jul. 14, 2026", "Jul 14, 2026"] },
+      { "type": "toolCalls", "values": ["search_web", "fetch_url"] }
+    ],
+    "critical": true
+  },
+  {
+    "id": "library-silver-falcon",
+    "group": "LIBRARY",
+    "name": "Library retrieval: silver falcon",
+    "prompt": "Search the JARVIS Library for the phrase silver falcon. Return the phrase and identify the supporting library document. Do not use memory or web search.",
+    "assertions": [
+      { "type": "contains", "values": ["silver falcon"] },
+      { "type": "sourceEvidence" }
+    ],
+    "critical": true
+  },
+  {
+    "id": "library-ram-slots",
+    "group": "LIBRARY",
+    "name": "Motherboard two-stick RAM slots",
+    "prompt": "Using only the motherboard manual in JARVIS Library, state the recommended slots for two RAM sticks and identify the document source.",
+    "assertions": [
+      { "type": "regex", "value": "(?i)DIMM\\s*A2" },
+      { "type": "regex", "value": "(?i)DIMM\\s*B2" },
+      { "type": "sourceEvidence" }
+    ],
+    "critical": true
+  },
+  {
+    "id": "library-hallucination",
+    "group": "LIBRARY",
+    "name": "Library hallucination detection",
+    "prompt": "Using only JARVIS Library, find the exact phrase JARVIS_NONEXISTENT_DOCUMENT_FACT_7B2A. If it is absent, say it was not found. Do not infer or invent document content.",
+    "assertions": [
+      { "type": "containsAny", "values": ["not found", "could not find", "not present", "no matching"] },
+      { "type": "sourceEvidence" }
+    ],
+    "critical": true
+  }
+]

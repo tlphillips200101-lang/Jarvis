@@ -1,0 +1,4 @@
+{
+  "instructions": "Add PNG, JPG, JPEG, or WEBP files to this folder, then add one test object to tests below. Paths are relative to this manifest.",
+  "tests": []
+}

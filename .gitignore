@@ -1,0 +1,13 @@
+reports/
+Tests/JARVIS-Full-Test-*.json
+Tests/JARVIS-Full-Test-*.html
+.webui_secret_key
+Tests/JARVIS-Health-*.json
+*.db
+*.sqlite
+*.sqlite3
+*.db-shm
+*.db-wal
+*.log
+*.gguf
+*.safetensors

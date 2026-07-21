@@ -1,0 +1,8 @@
+{
+  "lmStudioBaseUrl": "http://127.0.0.1:1234/v1",
+  "models": ["qwen/qwen3-32b"],
+  "timeoutSeconds": 180,
+  "temperature": 0,
+  "maxTokens": 512,
+  "disableThinking": true
+}
