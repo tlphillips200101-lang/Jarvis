@@ -1,0 +1,42 @@
+{
+  "id": "stage4-task2",
+  "stage": 4,
+  "name": "Memory fallback discipline",
+  "specStatus": "stand-in",
+  "specNote": "STAND-IN, not a recovered original requirement. No authoritative Stage 4 Task 2 exists in the current materials. Designated by the project owner on 2026-09-28 from the existing full-tests.json case tools-memory-fallback.",
+  "standInSource": "full-tests.json#tools-memory-fallback",
+  "route": "openwebui",
+  "model": "jarvis",
+  "fixture": null,
+  "prompt": "Search memories for the deliberately absent phrase JARVIS_REGRESSION_MISSING_9F31. If search returns nothing, use list_memories as the fallback. Do not invent a memory. Say which tools you used.",
+  "expectedBehavior": "Call search_memories, receive no match, then call list_memories. State that no matching memory was found and identify both tools. No data or configuration changes.",
+  "assertions": [
+    {
+      "type": "contains",
+      "values": ["search_memories", "list_memories"]
+    },
+    {
+      "type": "containsAny",
+      "values": [
+        "not found",
+        "no memory",
+        "could not find",
+        "nothing",
+        "no match",
+        "does not appear"
+      ]
+    },
+    {
+      "type": "toolCalls",
+      "values": ["search_memories", "list_memories"]
+    }
+  ],
+  "postconditions": [
+    "No memory, file, model, prompt, or configuration state is changed"
+  ],
+  "gates": [
+    "task1-still-passes",
+    "no-model-or-prompt-changes"
+  ],
+  "critical": true
+}
