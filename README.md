@@ -38,3 +38,17 @@ Edit `tests.json` to add test cases and `config.json` to adjust models, timeout,
 ## Important scope
 
 This suite evaluates the model endpoint directly. Testing Open WebUI web search, persistent JARVIS memory, or JARVIS-specific tools will require a separate adapter for those services; the runner does not pretend those integrations exist.
+
+## Run a Stage 4 spec
+
+`stage4\run-spec.ps1` runs one spec file, such as `stage4\memory-fallback.json`, through Open WebUI against the exact `jarvis` model. It uses `full-config.json`, refuses any Open WebUI URL that is not localhost, and prompts for an Open WebUI API token (or reads `OPENWEBUI_API_TOKEN`).
+
+```powershell
+.\stage4\run-spec.ps1 -SpecPath .\stage4\memory-fallback.json
+```
+
+In VS Code, run the **JARVIS: Run Stage 4 Spec** task instead.
+
+The runner grades the response against the spec's assertions. It takes read-only snapshots of the `jarvis` model record and your saved memories before and after the prompt, and fails if either changed. Gates it cannot check from this repo, such as the Task 1 tests in the JARVIS codebase, are reported as NOT VERIFIED, never as passed. The result is PASS (exit 0), FAIL (exit 1), or INCOMPLETE (exit 2), and a JSON report is written to `Tests`.
+
+`stage4\memory-fallback.json` is a supplementary check, not Stage 4 Task 2. The authoritative Stage 4 record is `verification\stage4-final-status-20261005.md`.
