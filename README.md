@@ -37,7 +37,7 @@ Edit `tests.json` to add test cases and `config.json` to adjust models, timeout,
 
 ## Important scope
 
-This suite evaluates the model endpoint directly. Testing Open WebUI web search, persistent JARVIS memory, or JARVIS-specific tools will require a separate adapter for those services; the runner does not pretend those integrations exist.
+This suite evaluates the model endpoint directly. It does not test Open WebUI web search, persistent JARVIS memory, or JARVIS-specific tools, and the runner does not pretend those integrations exist. To test JARVIS through Open WebUI, see [Run a Stage 4 spec](#run-a-stage-4-spec) below.
 
 ## Run a Stage 4 spec
 
