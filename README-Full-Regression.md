@@ -40,3 +40,15 @@ No fabricated Vision test is included. Until a real image is added, the dashboar
 - `regex`: the response must match `value` as a regular expression.
 
 Tool-use tests ask JARVIS to identify the tools it used. This makes tool sequencing auditable in the saved raw response. Exact tool availability and names still depend on the real `jarvis` model configuration in Open WebUI.
+
+## Run a single Stage 4 spec
+
+`stage4\run-spec.ps1` runs one spec file, such as `stage4\memory-fallback.json`, through the same Open WebUI connection. It uses `full-config.json`, keeps the same safety checks (localhost only, model ID exactly `jarvis`), and grades assertions the same way as this suite.
+
+```powershell
+.\stage4\run-spec.ps1 -SpecPath .\stage4\memory-fallback.json
+```
+
+In VS Code, run the **JARVIS: Run Stage 4 Spec** task instead.
+
+Unlike the full suite, it also takes read-only snapshots of the `jarvis` model record and your saved memories before and after the prompt, and fails if either changed. Gates it cannot check from this repo are reported as NOT VERIFIED. The result is PASS, FAIL, or INCOMPLETE (exit 0, 1, or 2), and a JSON report is written next to the suite's reports. See the main `README.md` for details.
